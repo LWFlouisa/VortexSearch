@@ -241,7 +241,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -260,7 +260,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -279,7 +279,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -298,7 +298,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -317,7 +317,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -336,7 +336,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -355,7 +355,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -374,7 +374,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -393,7 +393,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("swipl #{active_rule}.pl")
+           system("#{active_rule}")
         else
            puts ">> There is specific file is not available to analyze."
         end
