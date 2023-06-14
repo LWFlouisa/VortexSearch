@@ -8,7 +8,6 @@ Multisearch::SearchFiles.transition
 ~~~
 
 ## Phind Interpretation
-~~~
 The [VortexSearch repository](https://github.com/LWFlouisa/VortexSearch.git) is a Perl implementation that aims to shorten search queries when looking for files. It does so by creating rulesets that define specific search patterns.
 
 Based on the provided code snippet:
@@ -25,4 +24,3 @@ Here's an educated guess on how this repository relates to multisearch functiona
 - `Multisearch::SearchFiles.transition`: This line implies that the `Multisearch` module has a method called `SearchFiles.transition`, which possibly transitions the search functionality from one state to another. This could be related to changing the search pattern, ruleset, or other search parameters during the search process.
 
 In summary, the repository seems to provide a way to create and transition between different search modes and rulesets, allowing users to efficiently search for files by shortening and customizing their search queries. 
-~~~
