@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<aiml version = "1.0.1" encoding = "UTF-8">
+  <category>
+    <pattern>I want to consult you about the anthem.</pattern>
+    <template>
+      <system>cd _interpreters; swipl interpret_anthem.rb</system>
+    </template>
+  </category>
+<aiml>
