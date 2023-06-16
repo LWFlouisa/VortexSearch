@@ -22,6 +22,9 @@ else
 end
 ~~~
 
+## Supervised Requests
+[Supervised Request Parser](https://github.com/LWFlouisa/Vortex)
+
 ## Phind Interpretation
 This Ruby code defines a script that generates and adapts rulesets for an unknown purpose. The code is structured in two main functions: `create_rulesets` and `adaptation_vortex`. The code uses the `humanist_errors` library to handle errors in a human-friendly manner.
 
