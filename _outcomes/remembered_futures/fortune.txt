@@ -1,5 +1,3 @@
-placeholder
-White
 colortint(lightblue, colortint).
 colortint(lightred, colortint).
 :- discontiguous purecolor/3.
