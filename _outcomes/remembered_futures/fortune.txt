@@ -1,0 +1,7 @@
+placeholder
+White
+colortint(lightblue, colortint).
+colortint(lightred, colortint).
+:- discontiguous purecolor/3.
+colorshade(darkblue, colorshade).
+colorshade(darkgreen, colorshade).

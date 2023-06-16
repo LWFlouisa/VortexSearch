@@ -1,3 +1,6 @@
+require "parlset"
+
+# Automated search functionality.
 module Multisearch
 
   class CreateModes
@@ -241,7 +244,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -260,7 +263,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -279,7 +282,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -298,7 +301,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -317,7 +320,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -336,7 +339,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -355,7 +358,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -374,7 +377,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -393,7 +396,7 @@ module Multisearch
 
         ## Files to open and analyze should be contained in _prolog/[your script name].pl Remember to use halt. to exit prolog.
         if File.exist("#{active_rule}")
-           system("#{active_rule}")
+           system("swipl #{active_rule}.pl")
         else
            puts ">> There is specific file is not available to analyze."
         end
@@ -446,5 +449,195 @@ module Multisearch
       end
     end
   end
+end
 
+# This functions as a way for the machine to remember past fortunes.
+module Fortune
+  class Memory
+    def self.fortune_generation
+      iteration = File.read("_ai/gen_limit/limitation.txt").strip.to_i
+
+      iteration.times do
+        # Make fortunes cookies by two future array clones.
+        fortune_cookie1 = File.readlines("_ai/fortunes/set_one/futures.txt")
+        fortune_cookie2 = File.readlines("_ai/fortunes/set_two/futures.txt")
+
+        # Use sampler for each fortune cookie
+        first_fortune  = fortune_cookie1.sample.strip
+        second_fortune = fortune_cookie2.sample.strip
+        outcome_name   = "result".tr " ", "_"
+
+        if first_fortune == second_fortune
+          puts "First fortune: #{first_fortune} Second fortune: #{second_fortune}"
+
+          puts ">> These outcomes are similar and thus remembering these for later..."
+
+          ## Create a new document based on remembered datapoint
+          open("_outcomes/remembered_futures/fortune.txt", "a") { |f|
+            f.puts first_fortune
+          }
+
+          ## Create a new prolog knowledge base section upon appending.
+          open("_knowledgebase/#{outcome_name}.pl", "a") { |f|
+            f.puts first_fortune
+          }
+
+          abort
+        else
+          puts "First fortune: #{first_fortune} Second fortune: #{second_fortune}"
+
+          puts ">> These outcomes are not similar and thus must be unconnected..." 
+        end
+      end
+    end
+
+    # Makes sure your loop limit matches the exact size of the fortune list.
+    def self.reset_limit
+      fortune_cookie1 = File.readlines("_ai/fortunes/set_one/futures.txt")
+
+      loop_resizer = fortune_cookie1.size.to_i
+
+      open("_ai/gen_limit/limitation.txt", "w") { |f|
+        f.puts loop_resizer
+      }
+    end
+
+    def self.retrain_model
+      new_fortune = File.read("_outcomes/remembered_futures/fortune.txt")
+
+      open("_ai/fortunes/set_one/futures.txt", "w") { |f|
+        f.puts new_fortune
+      }
+
+      open("_ai/fortunes/set_two/futures.txt", "w") { |f|
+        f.puts new_fortune
+      }
+
+      puts ">> Reset fortune list for each set as remembered futures."
+    end
+  end
+end
+
+module VortexLang
+  class VortexParser < Parslet::Parser
+    root(:predicate)
+
+    rule(:predicate) { assertion | rule | query }
+
+    ## Basics
+    rule(:lbracket) { str("(") }
+    rule(:rbracket) { str(")") }
+    rule(:comma)    { str(",") }
+    rule(:punc)     { str(".") }
+    rule(:space)    { str(" ") }
+
+    ## Query syntax
+    rule(:request)  {        str("?") }
+    rule(:present)  { str("present?") }
+    rule(:lenclose) {        str("[") }
+    rule(:renclose) {        str("]") }
+
+    ## Names
+    rule(:name) { pepper | luna }
+
+    rule(:pepper) { str("pepper") }
+    rule(:luna)   {   str("luna") }
+
+    ### Nouns
+    rule(:noun) { cat | dog }
+
+    rule(:cat) { str("cat") }
+    rule(:dog) { str("dog") }
+
+    ### Adjectives
+    rule(:adjective) { black | white }
+
+    rule(:black) { str("black") }
+    rule(:white) { str("white") }
+
+    ### Verbs
+    rule(:verb) { barks | meows }
+
+    rule(:barks) { str("barks") }
+    rule(:meows) { str("meows") }
+
+    ### Specific syntax
+    rule(:assertion) { noun     >>
+                       lbracket >>
+                       name     >>
+                       rbracket >>
+                       punc
+    }
+
+    rule(:rule)      { noun      >>
+                       lbracket  >>
+                       adjective >>
+                       comma     >>
+                       space     >>
+                       verb      >>
+                       rbracket  >>
+                       punc
+    }
+
+    rule(:query) { question >>
+                   space    >>
+                   lenclose >> noun >> renclose >>
+                   present
+    }
+  end
+
+  class VortexTransform << Parslet::Transform
+    # Basics
+    rule(:lbracket) { "(" }
+    rule(:rbracket) { ")" }
+    rule(:comma)    { "," }
+    rule(:punc)     { "." }
+    rule(:space)    { " " }
+
+    ## Query syntax
+    rule(:request)  {        "?" }
+    rule(:present)  { "present?" }
+    rule(:lenclose) {        "[" }
+    rule(:renclose) {        "]" }
+
+    ## Names
+    rule(:pepper) { "pepper" }
+    rule(:luna)   {   "luna" }
+
+    ### Nouns
+    rule(:cat) { "cat" }
+    rule(:dog) { "dog" }
+
+    ### Adjectives
+    rule(:black) { "black" }
+    rule(:white) { "white" }
+
+    ### Verbs
+    rule(:barks) { "barks" }
+    rule(:meows) { "meows" }
+  end
+
+  class VortexInput
+    def self.interpreter
+      begin
+        print "Vortex >> "; input = gets.chomp # .split(" ")
+
+        parser      = VortexParser.new
+        transform   = VortexTransform.new
+
+        tree        = parser.parse(input)
+        ast         = transform.apply(tree)
+        ast_output = "#{ast}".to_s
+
+        puts "Your Result: #{ast_output}"
+
+        # system("espeak -p 95 '#{ast_output}'")
+
+        # SmartSearch::SearchQuery.convert_query
+        # SmartSearch::SearchQuery.is_present?
+      rescue Parslet::ParseFailed => error
+        puts error.parse_failure_cause.ascii_tree
+      end
+    end
+  end
 end
