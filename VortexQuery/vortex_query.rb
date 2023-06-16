@@ -518,6 +518,7 @@ module Fortune
   end
 end
 
+
 module VortexLang
   class VortexParser < Parslet::Parser
     root(:predicate)
@@ -525,11 +526,36 @@ module VortexLang
     rule(:predicate) { assertion | rule | query }
 
     ## Basics
-    rule(:lbracket) { str("(") }
-    rule(:rbracket) { str(")") }
-    rule(:comma)    { str(",") }
-    rule(:punc)     { str(".") }
-    rule(:space)    { str(" ") }
+    rule(:lbracket)     { str("(") }
+    rule(:rbracket)     { str(")") }
+    rule(:comma)        { str(",") }
+    rule(:punc)         { str(".") }
+    rule(:space)        { str(" ") }
+    rule(:equal)        { str("=") }
+    rule(:conditional) { str(":-") }      
+
+    ## Variables
+    rule(:variable) { a | b | c |
+                      d | e | f |
+                      g | h | i |
+                      j | k | l |
+                      m | n | o |
+                      p | q | r |
+                      s | t | u |
+                      v | w | x |
+                      z
+    }
+
+    ## Specific Variable Format
+    rule(:a) { str("A") }; rule(:b) { str("B") }; rule(:c) { str("C") };
+    rule(:d) { str("D") }; rule(:e) { str("E") }; rule(:f) { str("F") };
+    rule(:g) { str("G") }; rule(:h) { str("H") }; rule(:i) { str("I") };
+    rule(:j) { str("J") }; rule(:k) { str("K") }; rule(:l) { str("L") };
+    rule(:m) { str("M") }; rule(:n) { str("N") }; rule(:o) { str("O") };
+    rule(:p) { str("P") }; rule(:q) { str("Q") }; rule(:r) { str("R") };
+    rule(:s) { str("S") }; rule(:t) { str("T") }; rule(:u) { str("U") };
+    rule(:v) { str("V") }; rule(:w) { str("W") }; rule(:x) { str("X") };
+    rule(:y) { str("Y") }; rule(:z) { str("Z") };
 
     ## Query syntax
     rule(:request)  {        str("?") }
@@ -542,24 +568,31 @@ module VortexLang
 
     rule(:pepper) { str("pepper") }
     rule(:luna)   {   str("luna") }
+    rule(:luana)  {  str("luana") }
 
     ### Nouns
     rule(:noun) { cat | dog }
 
-    rule(:cat) { str("cat") }
-    rule(:dog) { str("dog") }
+    rule(:cat)   {   str("cat") }
+    rule(:dog)   {   str("dog") }
+    rule(:mouse) { str("mouse") }
 
     ### Adjectives
     rule(:adjective) { black | white }
 
     rule(:black) { str("black") }
     rule(:white) { str("white") }
+    rule(:grey)  {  str("grey") }
+    rule(:red)   {   str("red") }
+    rule(:green) { str("green") }
+    rule(:blue)  {  str("blue") }
 
     ### Verbs
     rule(:verb) { barks | meows }
 
-    rule(:barks) { str("barks") }
-    rule(:meows) { str("meows") }
+    rule(:barks)   {  str("barks") }
+    rule(:meows)   {  str("meows") }
+    rule(:squeeks) { str("squeek") }
 
     ### Specific syntax
     rule(:assertion) { noun     >>
@@ -569,6 +602,7 @@ module VortexLang
                        punc
     }
 
+    # Basic prolog based
     rule(:rule)      { noun      >>
                        lbracket  >>
                        adjective >>
@@ -579,10 +613,18 @@ module VortexLang
                        punc
     }
 
+    # Vortex based queries designed for more explicit file searching.
     rule(:query) { question >>
                    space    >>
                    lenclose >> noun >> renclose >>
                    present
+    }
+
+    # Support for basic Prolog based queries.
+    rule(:pquery) { variable >> space    >> equal     >> space   >>
+                    noun     >> lbracket >> adjective >> comma   >> space    >>
+                    verb     >> rbracket >> comma     >> display >> lbracket >>
+                    variable >> rbracket >> punc 
     }
   end
 
@@ -603,18 +645,25 @@ module VortexLang
     ## Names
     rule(:pepper) { "pepper" }
     rule(:luna)   {   "luna" }
+    rule(:luana)  {  "luana" }
 
     ### Nouns
-    rule(:cat) { "cat" }
-    rule(:dog) { "dog" }
+    rule(:cat)   {   "cat" }
+    rule(:dog)   {   "dog" }
+    rule(:mouse) { "mouse" }
 
     ### Adjectives
     rule(:black) { "black" }
     rule(:white) { "white" }
+    rule(:grey)  {  "grey" }
+    rule(:red)   {   "red" }
+    rule(:green) { "green" }
+    rule(:blue)  {  "blue" }
 
     ### Verbs
-    rule(:barks) { "barks" }
-    rule(:meows) { "meows" }
+    rule(:barks)   {  "barks" }
+    rule(:meows)   {  "meows" }
+    rule(:squeeks) { "squeek" }
   end
 
   class VortexInput
